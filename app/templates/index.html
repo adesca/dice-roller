@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }} - microblog</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <style>
+        #characters {
+            white-space : nowrap;
+        }
+        #characters > div {
+            display: inline-block;
+            height: 100px;
+            width: 100px;
+            margin-left: 5px;
+        }
+        #characters div + div {
+            margin-left: 10px;
+        }
+    </style>
+    <script>
+
+    </script>
+</head>
+<body>
+    <div id="characters">
+    {% for character in characters %}
+        <div>
+        {{character.name}} <br />
+        {% for stat in character.stats %}
+            <div data-name={{stat.name |truncate(3,true,'')}} data-value={{stat.value}} >
+            {{stat.name}} : {{stat.value}} <br />
+            </div>
+        {% endfor %}
+
+        </div>
+    {% endfor %}
+    </div>
+    Enter die formula: <input type="text" id="dieFormula"> <br />
+    Die formula: [number of die]d[number of sides] + [first three letters of attribute]<br />
+    Result: <span class="result"></span>
+
+
+
+</body>
+</html>

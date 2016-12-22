@@ -1,8 +1,4 @@
-userInfo.jl
-*.txt
-*.json
-headers1
-conversations/
+.idea/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
