@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>{{ title }} - microblog</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+
+    </script>
     <style>
         #characters {
             white-space : nowrap;
@@ -19,16 +22,54 @@
         }
     </style>
     <script>
+        $(document).ready(function(){
+            function rollNumbers(max){
+                max = Math.floor(max);
+                return Math.floor(Math.random() * (max)) + 1;
+            }
 
+            function runRolls() {
+
+                if($("#dieFormula").value){
+                    alert("wait");
+                    var tokens = $("#dieFormula").value.split(" ");
+
+                    var dieValues = tokens[0].spit("d");
+                    var rollResults = [];
+                    for(var i; i<dieValues[0]; i++){
+                        rollResults.push(rollNumbers(dieValues[1]));
+                    }
+
+                    var newID = "#"+$("#people option:selected").text();
+                    var attr = "."+tokens[1];
+                    var attrVal = $(newID).children(attr)[0].dataset.value;
+                    var sum = rollResults.reduce(function(a, b) { return a + b; }, 0);
+                    sum = sum.toString();
+                    var resultText = "";
+                    for(var i; i<dieValues[0]; i++){
+                        resultText += rollResults[i]+" ";
+                    }
+                    resultText = resultText.toString();
+
+                    $("#result").text(resultText+"Total: "+sum);
+                } else {
+                    console.log($("#dieFormula"));
+                    $("#result").text("Empty die formula.");
+
+                }
+
+            }
+            $("#roll").on("click",runRolls );
+        })
     </script>
 </head>
 <body>
     <div id="characters">
     {% for character in characters %}
-        <div>
+        <div id={{character.name}}>
         {{character.name}} <br />
         {% for stat in character.stats %}
-            <div data-name={{stat.name |truncate(3,true,'')}} data-value={{stat.value}} >
+            <div class={{stat.name |truncate(3,true,'')}} data-value={{stat.value}} >
             {{stat.name}} : {{stat.value}} <br />
             </div>
         {% endfor %}
@@ -36,9 +77,19 @@
         </div>
     {% endfor %}
     </div>
-    Enter die formula: <input type="text" id="dieFormula"> <br />
-    Die formula: [number of die]d[number of sides] + [first three letters of attribute]<br />
-    Result: <span class="result"></span>
+    Enter die formula: <input type="text" id="dieFormula">
+    Roll target:
+
+      <select id="people">
+          {% for character in characters %}
+          <option value={{character.name}}>{{character.name}}</option>
+          {% endfor %}
+      </select>
+    <button id="roll">Roll</button>
+    <br />
+    Die formula: [number of die]d[number of sides] + [first three letters of attribute]
+    <br />
+    Result: <span id="result"></span>
 
 
 
