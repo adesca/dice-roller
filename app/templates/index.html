@@ -30,26 +30,37 @@
 
             function runRolls() {
 
-                if($("#dieFormula").value){
-                    alert("wait");
-                    var tokens = $("#dieFormula").value.split(" ");
+                if($("#dieFormula").val()){
 
-                    var dieValues = tokens[0].spit("d");
+                    var tokens = $("#dieFormula").val().split(" ");
+
+                    var dieValues = tokens[0].split("d");
                     var rollResults = [];
-                    for(var i; i<dieValues[0]; i++){
+
+                    for(var i = 0; i<parseInt(dieValues[0]); i++){
+                        alert(i);
                         rollResults.push(rollNumbers(dieValues[1]));
                     }
+                    console.log(rollResults);
+                    console.log(dieValues);
 
                     var newID = "#"+$("#people option:selected").text();
-                    var attr = "."+tokens[1];
+
+                    var attr = "."+tokens[2];
                     var attrVal = $(newID).children(attr)[0].dataset.value;
+
                     var sum = rollResults.reduce(function(a, b) { return a + b; }, 0);
+                    sum += parseInt(attrVal);
                     sum = sum.toString();
                     var resultText = "";
-                    for(var i; i<dieValues[0]; i++){
+                    for(var i = 0; i<dieValues[0]; i++){
                         resultText += rollResults[i]+" ";
                     }
                     resultText = resultText.toString();
+
+
+                    console.log("Result: " + resultText);
+                    console.log("Sum "+sum);
 
                     $("#result").text(resultText+"Total: "+sum);
                 } else {
